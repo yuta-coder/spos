@@ -1,0 +1,64 @@
+FIFO:
+import java.io.*;
+class FIFO {
+ public static void main(String args[]) throws IOException {
+ int n; // Number of inputs
+ int f; // Number of frames
+ float rat; // Hit ratio
+ BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+ System.out.println("Enter the number of FRAMES:");
+ f = Integer.parseInt(br.readLine()); // Number of frames input
+ int fifo[] = new int[f]; // Array for holding frames
+ System.out.println("Enter the number of INPUTS:");
+ n = Integer.parseInt(br.readLine()); // Number of inputs
+ int inp[] = new int[n]; // Array for holding inputs
+ System.out.println("Enter INPUTS:");
+ for (int i = 0; i < n; i++) {
+ inp[i] = Integer.parseInt(br.readLine()); // Reading input values
+ }
+ System.out.println("----------------------");
+ // Initialize all frames to -1 (indicating empty)
+ for (int i = 0; i < f; i++) {
+ fifo[i] = -1;
+ }
+ int Hit = 0; // Counter for hit
+ int Fault = 0; // Counter for fault
+ int j = 0; // Index for FIFO replacement
+ boolean check; // Flag for checking if input is a hit or fault
+ // Process each input
+ for (int i = 0; i < n; i++) {
+ check = false;
+ // Check if the page is already in one of the frames (HIT)
+ for (int k = 0; k < f; k++) {
+ if (fifo[k] == inp[i]) {
+ check = true;
+ Hit++;
+ break; // If hit, break out of the loop
+ }
+ }
+ // If it's a fault, replace the oldest page in FIFO manner
+ if (!check) {
+ fifo[j] = inp[i];
+ j = (j + 1) % f; // Circularly increment the pointer j
+ Fault++;
+ }
+ }
+ // Calculate and display the hit ratio
+ rat = (float) Hit / (float) n;
+ System.out.println("HIT: " + Hit + " FAULT: " + Fault + " HIT RATIO: " + rat);
+ }
+}
+OUTPUT:
+Enter the number of FRAMES:
+3
+Enter the number of INPUTS:
+8
+Enter INPUTS:
+12
+2
+3
+21
+1
+1
+4
+1
