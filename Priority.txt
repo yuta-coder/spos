@@ -1,0 +1,101 @@
+Priority:
+
+import java.util.Scanner;
+
+public class Priority {
+    public static void main(String[] args) {
+        Scanner sn = new Scanner(System.in);
+        System.out.print("Enter the number of processes: ");
+        int n = sn.nextInt();
+
+        int process[] = new int[n];    // Process IDs
+        int priority[] = new int[n];   // Priority of processes
+        int burst[] = new int[n];      // Burst times
+        int completion[] = new int[n]; // Completion times
+        int WT[] = new int[n];         // Waiting times
+        int TAT[] = new int[n];        // Turnaround times
+        int sum = 0;                   // To track the completion time
+        float totalTAT = 0, totalWT = 0; // To calculate average TAT and WT
+
+        // Input burst times and priorities for each process
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter Process " + (i + 1) + " Burst Time: ");
+            burst[i] = sn.nextInt();
+
+            System.out.print("Enter Process " + (i + 1) + " Priority: ");
+            priority[i] = sn.nextInt();
+
+            process[i] = i + 1;
+        }
+
+        // Sorting based on priority (higher priority first)
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (priority[i] < priority[j]) {
+                    // Swap priority
+                    int temp = priority[i];
+                    priority[i] = priority[j];
+                    priority[j] = temp;
+
+                    // Swap process IDs
+                    temp = process[i];
+                    process[i] = process[j];
+                    process[j] = temp;
+
+                    // Swap burst times
+                    temp = burst[i];
+                    burst[i] = burst[j];
+                    burst[j] = temp;
+                }
+            }
+        }
+
+        // Calculate completion times
+        for (int i = 0; i < n; i++) {
+            sum += burst[i];
+            completion[i] = sum;
+        }
+
+        // Display table header
+        System.out.println("\nPriority\tProcess\tBurst Time\tCompletion\tWT\tTAT");
+
+        // Calculate WT, TAT and display for each process
+        for (int i = 0; i < n; i++) {
+            TAT[i] = completion[i]; // TAT = Completion time (since arrival time is 0)
+            totalTAT += TAT[i];      // Add to total TAT
+
+            WT[i] = TAT[i] - burst[i]; // WT = TAT - Burst time
+            totalWT += WT[i];          // Add to total WT
+
+            // Display the details of the process
+            System.out.println(priority[i] + "\t\t" + process[i] + "\t\t" + burst[i] + "\t\t" + completion[i] + "\t\t" + WT[i] + "\t\t" + TAT[i]);
+        }
+
+        // Display average turnaround and waiting times
+        System.out.println("\nAverage Turn Around Time: " + (totalTAT / n));
+        System.out.println("Average Wait Time: " + (totalWT / n));
+
+        sn.close();
+    }
+}
+
+OUTPUT:
+Enter the number of processes: 4
+Enter Process 1 Burst Time: 5
+Enter Process 1 Priority: 1
+Enter Process 2 Burst Time: 2
+Enter Process 2 Priority: 3
+Enter Process 3 Burst Time: 5
+Enter Process 3 Priority: 2
+Enter Process 4 Burst Time: 5
+Enter Process 4 Priority: 4
+
+Priority	Process	Burst Time	Completion	WT	TAT
+4		4		5		5		0		5
+3		2		2		7		5		7
+2		3		5		12		7		12
+1		1		5		17		12		17
+
+Average Turn Around Time: 10.25
+Average Wait Time: 6.0
+
