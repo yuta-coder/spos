@@ -1,0 +1,61 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+public class LRU {
+ public static void main(String args[]) {
+ Scanner sn = new Scanner(System.in);
+ // Input for number of frames
+ System.out.print("\nEnter How Many Frames You Want: ");
+ int frame = sn.nextInt();
+ // Input for number of pages
+ System.out.print("How Many Pages You Want: ");
+ int pg = sn.nextInt();
+ // Input the pages
+ System.out.print("\nEnter Pages: ");
+ int pages[] = new int[pg];
+ for (int i = 0; i < pg; i++) {
+ pages[i] = sn.nextInt();
+ }
+ // List to hold the current frames
+ ArrayList<Integer> s = new ArrayList<>(frame);
+ int pagefault = 0; // Counter for page faults
+ // Process each page
+ for (int i : pages) {
+ // Check if the page is not present in the frame (Page Fault)
+ if (!s.contains(i)) {
+ // If the frame is full, remove the least recently used page (first element)
+ if (s.size() == frame) {
+ s.remove(0);
+ }
+ // Add the new page
+ s.add(i);
+ pagefault++; // Increment page fault counter
+ } else {
+ // If the page is already in the frame (Page Hit), move it to the most recent position
+ s.remove((Integer) i); // Use wrapper class to remove the object, not the index
+ s.add(i);
+ }
+ }
+ // Output the number of page faults
+ System.out.println("Page Faults: " + pagefault);
+ sn.close(); // Closing the Scanner
+ }
+}
+OUTPUT:
+Enter number of Frames:
+3
+Enter number of Pages:
+10
+Enter the pages:
+7
+0
+1
+2
+03
+0
+3
+0
+4
+2
+3
+Total Page Faults: 6
+Total Page Hits: 4
