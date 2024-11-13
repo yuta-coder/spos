@@ -1,0 +1,23 @@
+int a,b,c;
+a = Integer.parseInt(jTextField1.getText());
+b = Integer.parseInt(jTextField2.getText());
+c=a+b;
+jTextField3.setText(""+d);
+
+========================================================
+Start  Microsoft Visual Studio 2010  New  Project 
+Class Library Give name as “ClassLibrary1”  OK
+
+Write following code
+Public Class MyFunctions
+Public Function AddMyValues(ByVal Value1 As
+Double, ByVal Value2 As Double)
+ Dim Result As Double
+ Result = Value1 + Value2
+ Return Result
+ End Function
+End Class
+
+Start  Microsoft Visual Studio 2010  New  Project 
+Give Project name as “WindowsApplication5”  Design the
+following form
